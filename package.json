@@ -1,0 +1,19 @@
+{
+  "name": "fit-flow-api",
+  "version": "1.0.0",
+  "main": "server.js",
+  "license": "MIT",
+  "dependencies": {
+    "bluebird": "^3.5.1",
+    "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
+    "dotenv": "^5.0.1",
+    "express": "^4.16.3",
+    "express-jwt": "^5.3.1",
+    "helmet": "^3.12.0",
+    "morgan": "^1.9.0",
+    "path": "^0.12.7",
+    "sequelize": "^4.37.6",
+    "stripe": "^5.8.0"
+  }
+}
