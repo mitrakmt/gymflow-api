@@ -2,9 +2,7 @@ let db = require('./db.config')
 let Sequelize = require('sequelize')
 
 // Set table schema
-let Article = require('./article')(db)
 let User = require('./user')(db)
-let Donation = require('./donation')(db)
 
 // const TopicsPosts = db.define('TopicsPosts', {})
 // const ChaptersUsers = sequelize.define('ChaptersUsers', {})
@@ -22,6 +20,4 @@ db.sync().then(function () {
 module.exports = {
   db: db,
   Users: User,
-  Articles: Article,
-  Donations: Donation,
 }
