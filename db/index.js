@@ -2,10 +2,10 @@ let db = require('./db.config')
 let Sequelize = require('sequelize')
 
 // Set table schema
-let User = require('./user')(db)
+const User = require('./user')(db)
+const Workout = require('./workout')(db)
 
-// const TopicsPosts = db.define('TopicsPosts', {})
-// const ChaptersUsers = sequelize.define('ChaptersUsers', {})
+const UsersWorkouts = db.define('UsersWorkouts', {})
 // const ChaptersTopics = db.define('ChaptersTopics', {})
 
 // // HELPER TO DROP ALL TABLES
@@ -20,4 +20,6 @@ db.sync().then(function () {
 module.exports = {
   db: db,
   Users: User,
+  Workouts: Workout,
+  UsersWorkouts: UsersWorkouts
 }

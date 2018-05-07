@@ -10,7 +10,10 @@ module.exports = (db) => {
         },
         password: {
             type: Sequelize.STRING
-        }
+        },
+        email_verified: {
+            type: Sequelize.BOOLEAN
+        },
     }, {
         freezeTableName: true
     })
