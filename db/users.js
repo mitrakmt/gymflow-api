@@ -6,14 +6,23 @@ module.exports = (db) => {
             type: Sequelize.STRING
         },
         email: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
+            unique: true
+        },
+        username: {
+            type: Sequelize.STRING,
+            unique: true
         },
         password: {
             type: Sequelize.STRING
         },
         email_verified: {
-            type: Sequelize.BOOLEAN
+            type: Sequelize.BOOLEAN,
+            defaultValue: false
         },
+        role: {
+            type: Sequelize.STRING
+        }
     }, {
         freezeTableName: true
     })
