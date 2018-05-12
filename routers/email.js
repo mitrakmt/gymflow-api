@@ -1,5 +1,5 @@
 let emailRouter = require('express').Router()
-let emailController = require('../controllers/emailController')
+let emailController = require('../controllers/email')
 
 emailRouter.route('/contact')
     .post(emailController.CONTACT_US)

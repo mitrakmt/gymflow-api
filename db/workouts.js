@@ -5,6 +5,9 @@ module.exports = (db) => {
         name: {
             type: Sequelize.STRING
         },
+        workout: {
+            type: Sequelize.JSON
+        }
     }, {
         freezeTableName: true
     })

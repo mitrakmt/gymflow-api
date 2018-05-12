@@ -19,7 +19,7 @@ userModel.SIGN_UP = (email, password, name) => {
 
 userModel.SIGN_IN = (email, password) => {
     return User.findOne({
-        email: email
+        email
     })
     .then(user => {
         console.log(password, user.password)
@@ -35,7 +35,12 @@ userModel.SIGN_IN = (email, password) => {
 }
 
 userModel.GET_USER = (userId) => {
-    return 'empty'
+    return User.findOne({
+        email
+    })
+    .then(user => {
+        return user
+    })
 }
 
 userModel.UPDATE_USER = () => {
