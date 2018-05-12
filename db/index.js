@@ -23,6 +23,13 @@ const UsersWorkouts = db.define('UsersWorkouts', {})
 Users.belongsToMany(Users, { as: 'followedUsers', through: Follows, foreignKey: 'followerId', onDelete: 'cascade', hooks: true })
 Users.belongsToMany(Users, { as: 'followers', through: Follows, foreignKey: 'userId', onDelete: 'cascade', hooks: true })
 
+/* *
+* Workouts:Users
+* */
+
+// Workouts:Users (n:m)
+Workouts.belongsToMany(Users, {through: UsersWorkouts, foreignKey: 'workoutId'})
+Users.belongsToMany(Workouts, {through: UsersWorkouts, foreignKey: 'userId'})
 
 // // HELPER TO DROP ALL TABLES
 // db.sync({force: true}).then(() => {
@@ -34,9 +41,9 @@ db.sync().then(function () {
 })
 
 module.exports = {
-  db: db,
-  Users: Users,
-  Workouts: Workouts,
-  Follows: Follows,
-  UsersWorkouts: UsersWorkouts
+  db,
+  Users,
+  Workouts,
+  Follows,
+  UsersWorkouts
 }

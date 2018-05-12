@@ -6,9 +6,9 @@ let Promise = require("bluebird")
 userController.SIGN_UP = (req, res) => {
     let email = req.body.email
     let password = req.body.password
-    let name = req.body.fullname
+    let username = req.body.username
 
-    return userModel.SIGN_UP(email, password, name)
+    return userModel.SIGN_UP(email, password, username)
         .then(user => {
             let token = authHelpers.generateTokens(user.id)
             res.status(200).send(token)
@@ -48,6 +48,15 @@ userController.GET_USER = (req, res) => {
     let userId = req.headers.userId
     
     return userModel.GET_USER(userId)
+        .then(response => {
+            res.status(200).send(response)
+        })
+}
+
+userController.DELETE_USER = (req, res) => {
+    let userId = req.headers.userId
+    
+    return userModel.DELETE_USER(userId)
         .then(response => {
             res.status(200).send(response)
         })

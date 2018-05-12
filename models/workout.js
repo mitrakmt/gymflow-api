@@ -6,9 +6,11 @@ workoutModel.CREATE_WORKOUT = (name, workout, userId) => {
     return Workouts.create({
         name,
         workout,
+        owner: userId,
         userId
     })
     .then(workout => {
+        workout.setUsers(userId)
         return workout
     })
 }

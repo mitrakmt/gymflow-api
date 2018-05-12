@@ -7,7 +7,7 @@ let workoutModel = require('../models/workout')
 workoutController.CREATE_WORKOUT = (req, res) => {
     let name = req.body.name
     let workout = req.body.workout
-    let userId = req.body.userid
+    let userId = req.body.userId
 
     return workoutModel.CREATE_WORKOUT(name, workout, userId)
         .then(workout => {

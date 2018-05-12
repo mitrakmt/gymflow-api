@@ -2,13 +2,12 @@ let userModel = {}
 let User = require('../db').Users
 let authHelpers = require('../helpers/auth')
 
-userModel.SIGN_UP = (email, password, name) => {
+userModel.SIGN_UP = (email, password, username) => {
     return authHelpers.hashPassword(password)
         .then(hash => {
-            console.log("Hash in signup model", hash)
             return User.create({
-                name: name,
-                email: email,
+                username,
+                email,
                 password: hash
             })
             .then(user => {
@@ -42,6 +41,16 @@ userModel.GET_USER = (userId) => {
         return user
     })
 }
+
+userModel.DELETE_USER = (userId) => {
+    return User.destroy({
+        email
+    })
+    .then(user => {
+        return user
+    })
+}
+
 
 userModel.UPDATE_USER = () => {
     return 'empty'

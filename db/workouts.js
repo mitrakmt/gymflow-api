@@ -7,6 +7,9 @@ module.exports = (db) => {
         },
         workout: {
             type: Sequelize.JSON
+        },
+        owner: {
+            type: Sequelize.INTEGER
         }
     }, {
         freezeTableName: true

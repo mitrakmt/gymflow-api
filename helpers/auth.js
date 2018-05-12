@@ -7,7 +7,7 @@ authHelpers.generateTokens = (userId) => {
     data: {
       id: userId
     }
-  }, process.env.JWT_SECRET, { expiresIn: '168h' })
+  }, process.env.JWT_SECRET, { expiresIn: '1000h' })
 
   return token
 }
@@ -29,7 +29,6 @@ authHelpers.verifyToken = (token) => {
 }
 
 authHelpers.hashPassword = (password) => {
-  console.log(password)
   return bcrypt.hash(password, 10)
     .then(hash => {
       return hash
@@ -37,10 +36,8 @@ authHelpers.hashPassword = (password) => {
 }
 
 authHelpers.comparePasswords = (password, hash) => {
-  console.log('hash', hash)
   return bcrypt.compare(password, hash)
     .then(res => {
-      console.log('res in comparePasswords', res)
       return res
     })
 }
