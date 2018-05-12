@@ -18,10 +18,11 @@ userModel.SIGN_UP = (email, password, username) => {
 
 userModel.SIGN_IN = (email, password) => {
     return User.findOne({
-        email
+        where: {
+            email
+        }
     })
     .then(user => {
-        console.log(password, user.password)
         return authHelpers.comparePasswords(password, user.password)
             .then(result => {
                 if (result) {
@@ -33,27 +34,47 @@ userModel.SIGN_IN = (email, password) => {
     })
 }
 
-userModel.GET_USER = (userId) => {
+userModel.GET_USER = (id) => {
     return User.findOne({
-        email
+        where: {
+            id
+        }
     })
     .then(user => {
         return user
     })
 }
 
-userModel.DELETE_USER = (userId) => {
-    return User.destroy({
-        email
+userModel.DELETE_USER = (id) => {
+    return User.findOne({
+        where: {
+            id
+        }
     })
     .then(user => {
-        return user
+        user.destroy()
+        return true
     })
 }
 
 
-userModel.UPDATE_USER = () => {
-    return 'empty'
+userModel.UPDATE_USER = (id, dataToUpdate) => {
+    let updatedUser = _.pickBy(dataToUpdate, (item) => {
+        return !_.isUndefined(item)
+    })
+    return User.findOne({
+        where: {
+            id
+        }
+    })
+    .then(user => {
+        user.update(
+            updatedUser
+        )
+    })
+    .then(user => {
+        return user
+    })
 }
 
 module.exports = userModel

@@ -7,7 +7,7 @@ let workoutModel = require('../models/workout')
 workoutController.CREATE_WORKOUT = (req, res) => {
     let name = req.body.name
     let workout = req.body.workout
-    let userId = req.body.userId
+    let userId = req.user.id
 
     return workoutModel.CREATE_WORKOUT(name, workout, userId)
         .then(workout => {
@@ -17,17 +17,19 @@ workoutController.CREATE_WORKOUT = (req, res) => {
 
 // .get(workoutController.GET_WORKOUTS)
 workoutController.GET_WORKOUTS = (req, res) => {
-    // let userId = req.headers.userId
+    let userId = req.user.id
     
     return workoutModel.GET_WORKOUTS(userId)
-        .then(response => {
-            res.status(200).send(response)
+        .then(workouts => {
+            res.status(200).send(workouts)
         })
 }
 
 // ROUTE -- /:workoutId
 // .put(workoutController.UPDATE_WORKOUT)
 workoutController.UPDATE_WORKOUT = (req, res) => {
+    let userId = req.user.id
+
     return workoutModel.UPDATE_WORKOUT()
         .then(response => {
             res.status(200).send(response)
@@ -38,6 +40,8 @@ workoutController.UPDATE_WORKOUT = (req, res) => {
 workoutController.GET_WORKOUT = (req, res) => {
     console.log('req.params', req.params)
     let workoutId = req.params.workoutId
+    let userId = req.user.id
+
     return workoutModel.GET_WORKOUT(workoutId)
         .then(workout => {
             res.status(200).send(workout)
@@ -46,6 +50,8 @@ workoutController.GET_WORKOUT = (req, res) => {
 
 // .delete(workoutController.DELETE_WORKOUT)
 workoutController.DELETE_WORKOUT = (req, res) => {
+    let userId = req.user.id
+
     return workoutModel.DELETE_WORKOUT()
         .then(response => {
             res.status(200).send(response)
@@ -56,21 +62,23 @@ workoutController.DELETE_WORKOUT = (req, res) => {
 // ROUTE -- /user
 // .get(workoutController.GET_USER_WORKOUTS)
 workoutController.GET_USER_WORKOUTS = (req, res) => {
+    let userId = req.user.id
+
     return workoutModel.GET_USER_WORKOUTS()
-        .then(response => {
-            res.status(200).send(response)
+        .then(workouts => {
+            res.status(200).send(workouts)
         })
 }
 
 // ROUTE -- /user/:workoutId
 // .get(workoutController.GET_USER_WORKOUT)
 workoutController.GET_USER_WORKOUT = (req, res) => {
+    let userId = req.user.id
+
     return workoutModel.GET_USER_WORKOUT()
-        .then(response => {
-            res.status(200).send(response)
+        .then(workout => {
+            res.status(200).send(workout)
         })
 }
-
-
 
 module.exports = workoutController

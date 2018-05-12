@@ -22,6 +22,7 @@ userController.SIGN_IN = (req, res) => {
     return userModel.SIGN_IN(email, password)
         .then(user => {
             if (user) {
+                console.log('user', user)
                 let getTokens = () => {
                     return new Promise((resolve, reject) => {
                         let tokens = authHelpers.generateTokens(user.id)
@@ -45,16 +46,16 @@ userController.SIGN_OUT = (req, res) => {
 }
 
 userController.GET_USER = (req, res) => {
-    let userId = req.headers.userId
+    let userId = req.headers.id
     
     return userModel.GET_USER(userId)
-        .then(response => {
-            res.status(200).send(response)
+        .then(user => {
+            res.status(200).send(user)
         })
 }
 
 userController.DELETE_USER = (req, res) => {
-    let userId = req.headers.userId
+    let userId = req.headers.id
     
     return userModel.DELETE_USER(userId)
         .then(response => {
@@ -63,9 +64,11 @@ userController.DELETE_USER = (req, res) => {
 }
 
 userController.UPDATE_USER = (req, res) => {
+    let userId = req.headers.id
+
     return userModel.UPDATE_USER()
-        .then(response => {
-            res.status(200).send(response)
+        .then(user => {
+            res.status(200).send(user)
         })
 }
 

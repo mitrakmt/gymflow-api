@@ -2,12 +2,10 @@ let authHelpers = {}
 let jwt = require('jsonwebtoken')
 let bcrypt = require('bcryptjs')
 
-authHelpers.generateTokens = (userId) => {
+authHelpers.generateTokens = (id) => {
   let token = jwt.sign({
-    data: {
-      id: userId
-    }
-  }, process.env.JWT_SECRET, { expiresIn: '1000h' })
+    id
+  }, process.env.JWT_SECRET)
 
   return token
 }

@@ -1,10 +1,10 @@
 const workoutRouter = require('express').Router()
 const workoutController = require('../controllers/workout')
-const checkJwt = require('../middleware/auth').checkJwt
+const checkJwt = require('../middleware/auth')
 
 workoutRouter.route('/')
     .get(workoutController.GET_WORKOUTS)
-    .post(workoutController.CREATE_WORKOUT)
+    .post(checkJwt, workoutController.CREATE_WORKOUT)
 
 workoutRouter.route('/:workoutId')
     .get(workoutController.GET_WORKOUT)
