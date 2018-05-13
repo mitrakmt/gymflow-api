@@ -18,7 +18,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cors())
 app.use(helmet())
 
-app.use("/docs", express.static(__dirname + '/docs/index.html'));
+app.use("/docs", express.static(__dirname + '/docs'));
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
