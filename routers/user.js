@@ -12,6 +12,8 @@ userRouter.route('/')
      * @apiName GetUser
      * @apiGroup User
      * @apiPermission authenticated user
+     * 
+     * @apiHeader (Authorization) {String} authorization Authorization token (normally a JWT included "Bearer" at the beginning, but please exclude that text before the token).
      *
      * @apiSuccess {String} name Name of the User.
      * @apiSuccess {String} email Email of the User.
@@ -75,6 +77,8 @@ userRouter.route('/')
      * @apiParam {String} name Name of the User.
      * @apiParam {String} email Email of the User.
      * @apiParam {Array} interests Selected interests of the User.
+     * 
+     * @apiHeader (Authorization) {String} authorization Authorization token (normally a JWT included "Bearer" at the beginning, but please exclude that text before the token).
      *
      * @apiSuccess {String} name Name of the User.
      * @apiSuccess {String} email Email of the User.
@@ -108,6 +112,8 @@ userRouter.route('/')
      * @apiName DeleteUser
      * @apiGroup User
      * @apiPermission authenticated user
+     * 
+     * @apiHeader (Authorization) {String} authorization Authorization token (normally a JWT included "Bearer" at the beginning, but please exclude that text before the token).
      *
      * @apiSuccess {Bool} deleted Bool if deleted.
      *
@@ -160,6 +166,8 @@ userRouter.route('/logout')
      * @apiName Logout
      * @apiGroup User
      * @apiPermission authenticated user
+     * 
+     * @apiHeader (Authorization) {String} authorization Authorization token (normally a JWT included "Bearer" at the beginning, but please exclude that text before the token).
      *
      * @apiSuccess {Bool} loggedOut Boolean if logged out successfully.
      *
@@ -197,6 +205,8 @@ userRouter.route('/:username')
      * @apiPermission authenticated user
      *
      * @apiParam {String} username A user's username
+     * 
+     * @apiHeader (Authorization) {String} authorization Authorization token (normally a JWT included "Bearer" at the beginning, but please exclude that text before the token).
      *
      * @apiSuccess {String} name Name of the User.
      * @apiSuccess {String} username Username of the User.
