@@ -10,8 +10,10 @@ userController.SIGN_UP = (req, res) => {
 
     return userModel.SIGN_UP(email, password, username)
         .then(user => {
-            let token = authHelpers.generateTokens(user.id)
-            res.status(200).send(token)
+            let Authorization = authHelpers.generateTokens(user.id)
+            res.status(200).send({
+                Authorization
+            })
         })
 }
 
@@ -30,8 +32,10 @@ userController.LOGIN = (req, res) => {
                 }
 
                 getTokens()
-                    .then(tokens => {
-                        res.status(200).send(tokens)
+                    .then(Authorization => {
+                        res.status(200).send({
+                            Authorization
+                        })
                     })
                     
             } else {
@@ -41,7 +45,9 @@ userController.LOGIN = (req, res) => {
 }
 
 userController.LOGOUT = (req, res) => {
-    res.status(200).send('Logged out')
+    res.status(200).send({
+        loggedOut: true
+    })
 }
 
 userController.GET_USER = (req, res) => {
@@ -56,15 +62,15 @@ userController.GET_USER = (req, res) => {
 // /username/:username
 userController.CHECK_USERNAME_IN_USE = (req, res) => {
     let username = req.params.username
-    
+
     return userModel.CHECK_USERNAME_IN_USE(username)
-    .then(inUse => {
-        res.status(200).send(inUse)
-    })
+        .then(inUse => {
+            res.status(200).send(inUse)
+        })
 }
 
 userController.GET_USER_PROFILE = (req, res) => {
-    let userToFind = req.params.userId
+    let userToFind = req.params.username
     
     return userModel.GET_USER_PROFILE(userToFind)
         .then(user => {

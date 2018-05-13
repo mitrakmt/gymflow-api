@@ -2,22 +2,228 @@ const userRouter = require('express').Router()
 const userController = require('../controllers/user')
 const checkJwt = require('../middleware/auth')
 
+/**
+ * /User routes to access user functionality
+*/
+
 userRouter.route('/')
+    /**
+     * @api {get} /user Get current user object
+     * @apiName GetUser
+     * @apiGroup User
+     * @apiPermission authenticated user
+     *
+     * @apiSuccess {String} name Name of the User.
+     * @apiSuccess {String} email Email of the User.
+     * @apiSuccess {String} username Username of the User.
+     * @apiSuccess {Bool} email_verified Bool if email_verified of the User.
+     * @apiSuccess {String} role Role of the User.
+     * @apiSuccess {Array} interests Selected interests of the User.
+     *
+     * @apiSuccessExample Success-Response:
+     *     HTTP/1.1 200 OK
+     *     {
+     *       "name": "John Doe",
+     *       "email": "nick.mitrakos@gmail.com",
+     *       "username": "nmitrakos",
+     *       "email_verified": false,
+     *       "role": "User",
+     *       "interests": []
+     *     }
+     *
+     * @apiError Unauthorized Not an authorized or authenticated user.
+     *
+     * @apiErrorExample Error-Response:
+     *     HTTP/1.1 401 Not Found
+     *     {
+     *       "error": "Unauthorized"
+     *     }
+     */
     .get(checkJwt, userController.GET_USER)
+    /**
+     * @api {post} /user Signup new user
+     * @apiName SignupUser
+     * @apiGroup User
+     * 
+     * @apiParam {String} email Email of user.
+     * @apiParam {String} password Password of user.
+     * @apiParam {String} username Username of user.
+     *
+     * @apiSuccess {String} jwt JWT for the user.
+     *
+     * @apiSuccessExample Success-Response:
+     *     HTTP/1.1 200 OK
+     *     {
+     *       "Authorization": "someCrazyLongAuthorizationToken"
+     *     }
+     * 
+     * @apiError EmailTaken That email is already in use.
+     *
+     * @apiErrorExample Error-Response:
+     *     HTTP/1.1 401 Not Found
+     *     {
+     *       "error": "EmailTaken"
+     *     }
+     */
     .post(userController.SIGN_UP)
+    /**
+     * @api {put} /user Update current user
+     * @apiName UpdateUser
+     * @apiGroup User
+     * @apiPermission authenticated user
+     * 
+     * @apiParam {String} name Name of the User.
+     * @apiParam {String} email Email of the User.
+     * @apiParam {Array} interests Selected interests of the User.
+     *
+     * @apiSuccess {String} name Name of the User.
+     * @apiSuccess {String} email Email of the User.
+     * @apiSuccess {String} username Username of the User.
+     * @apiSuccess {Bool} email_verified Bool if email_verified of the User.
+     * @apiSuccess {String} role Role of the User.
+     * @apiSuccess {Array} interests Selected interests of the User.
+     *
+     * @apiSuccessExample Success-Response:
+     *     HTTP/1.1 200 OK
+     *     {
+     *       "name": "John Doe",
+     *       "email": "nick.mitrakos@gmail.com",
+     *       "username": "nmitrakos",
+     *       "email_verified": false,
+     *       "role": "User",
+     *       "interests": []
+     *     }
+     *
+     * @apiError Unauthorized Not an authorized or authenticated user.
+     *
+     * @apiErrorExample Error-Response:
+     *     HTTP/1.1 401 Not Found
+     *     {
+     *       "error": "Unauthorized"
+     *     }
+     */
     .put(checkJwt, userController.UPDATE_USER)
+    /**
+     * @api {delete} /user Delete user
+     * @apiName DeleteUser
+     * @apiGroup User
+     * @apiPermission authenticated user
+     *
+     * @apiSuccess {Bool} deleted Bool if deleted.
+     *
+     * @apiSuccessExample Success-Response:
+     *     HTTP/1.1 200 OK
+     *     {
+     *       "deleted": true
+     *     }
+     *
+     * @apiError Unauthorized Not an authorized or authenticated user.
+     *
+     * @apiErrorExample Error-Response:
+     *     HTTP/1.1 401 Not Found
+     *     {
+     *       "error": "Unauthorized"
+     *     }
+     */
     .delete(checkJwt, userController.DELETE_USER)
 
 userRouter.route('/login')
+    /**
+     * @api {post} /user/login Login user
+     * @apiName Login
+     * @apiGroup User
+     *
+     * @apiParam {String} email Email of user.
+     * @apiParam {String} password Password of user.
+     *
+     * @apiSuccess {String} jwt JWT of user.
+     *
+     * @apiSuccessExample Success-Response:
+     *     HTTP/1.1 200 OK
+     *     {
+     *       "Authorization": "someCrazyLongAuthorizationToken"
+     *     }
+     *
+     * @apiError AuthError Incorrect email or password.
+     *
+     * @apiErrorExample Error-Response:
+     *     HTTP/1.1 404 Not Found
+     *     {
+     *       "error": "IncorrectCredentials"
+     *     }
+     */
     .post(userController.LOGIN)
 
 userRouter.route('/logout')
+    /**
+     * @api {delete} /user/logout Logout user
+     * @apiName Logout
+     * @apiGroup User
+     * @apiPermission authenticated user
+     *
+     * @apiSuccess {Bool} loggedOut Boolean if logged out successfully.
+     *
+     * @apiSuccessExample Success-Response:
+     *     HTTP/1.1 200 OK
+     *     {
+     *       "loggedOut": true
+     *     }
+     */
     .delete(checkJwt, userController.LOGOUT)
 
 userRouter.route('/username/:username')
+    /**
+     * @api {get} /user/username/:username Check if username is already taken
+     * @apiName CheckIfUsernameInUse
+     * @apiGroup User
+     *
+     * @apiParam {String} username Username to check
+     *
+     * @apiSuccess {Bool} taken Boolean whether username is taken.
+     *
+     * @apiSuccessExample Success-Response:
+     *     HTTP/1.1 200 OK
+     *     {
+     *       "taken": true
+     *     }
+     */
     .get(userController.CHECK_USERNAME_IN_USE)
 
-userRouter.route('/:userId')
+userRouter.route('/:username')
+    /**
+     * @api {get} /user Get user profile
+     * @apiName GetUserProfile
+     * @apiGroup User
+     * @apiPermission authenticated user
+     *
+     * @apiParam {String} username A user's username
+     *
+     * @apiSuccess {String} name Name of the User.
+     * @apiSuccess {String} username Username of the User.
+     *
+     * @apiSuccessExample Success-Response:
+     *     HTTP/1.1 200 OK
+     *     {
+     *       "Name": "John Doe",
+     *       "Username": "jdoe"
+     *     }
+     *
+     * @apiError UserNotFound The username of the User was not found.
+     *
+     * @apiErrorExample Error-Response:
+     *     HTTP/1.1 404 Not Found
+     *     {
+     *       "error": "UserNotFound"
+     *     }
+     * 
+     * @apiError Unauthorized Not an authorized or authenticated user.
+     *
+     * @apiErrorExample Error-Response:
+     *     HTTP/1.1 401 Not Found
+     *     {
+     *       "error": "Unauthorized"
+     *     }
+     */
     .get(checkJwt, userController.GET_USER_PROFILE)
 
 module.exports = userRouter

@@ -49,10 +49,10 @@ userModel.GET_USER = (id) => {
     })
 }
 
-userModel.GET_USER_PROFILE = (id) => {
+userModel.GET_USER_PROFILE = (username) => {
     return User.findOne({
         where: {
-            id
+            username
         },
         attributes: ['name', 'role', 'interests'],
     })
@@ -69,9 +69,13 @@ userModel.CHECK_USERNAME_IN_USE = (username) => {
     })
     .then(user => {
         if (user) {
-            return true
+            return {
+                taken: true
+            }
         }
-        return false
+        return {
+            taken: false
+        }
     })
 }
 
@@ -84,7 +88,9 @@ userModel.DELETE_USER = (id) => {
     })
     .then(user => {
         user.destroy()
-        return true
+        return {
+            deleted: true
+        }
     })
 }
 
