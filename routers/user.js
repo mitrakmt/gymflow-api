@@ -1,16 +1,23 @@
 const userRouter = require('express').Router()
 const userController = require('../controllers/user')
+const checkJwt = require('../middleware/auth')
 
 userRouter.route('/')
-    .post(userController.SIGN_IN)
-    .delete(userController.SIGN_OUT)
-
-userRouter.route('/signup')
+    .get(checkJwt, userController.GET_USER)
     .post(userController.SIGN_UP)
+    .put(checkJwt, userController.UPDATE_USER)
+    .delete(checkJwt, userController.DELETE_USER)
+
+userRouter.route('/login')
+    .post(userController.LOGIN)
+
+userRouter.route('/logout')
+    .delete(checkJwt, userController.LOGOUT)
+
+userRouter.route('/username/:username')
+    .get(userController.CHECK_USERNAME_IN_USE)
 
 userRouter.route('/:userId')
-    .get(userController.GET_USER)
-    .put(userController.UPDATE_USER)
-    .delete(userController.DELETE_USER)
+    .get(checkJwt, userController.GET_USER_PROFILE)
 
 module.exports = userRouter

@@ -1,13 +1,13 @@
 let workoutModel = {}
 let Workouts = require('../db').Workouts
+let _ = require('lodash')
 
 // Create a workout for the logged in user
 workoutModel.CREATE_WORKOUT = (name, workout, userId) => {
     return Workouts.create({
         name,
         workout,
-        owner: userId,
-        userId
+        owner: userId
     })
     .then(workout => {
         workout.setUsers(userId)
@@ -18,39 +18,82 @@ workoutModel.CREATE_WORKOUT = (name, workout, userId) => {
 // Retrieve all workouts for the logged in user
 workoutModel.GET_WORKOUTS = (id) => {
     // this needs to be changed to get all workouts for the one logged in user
-    return Workouts.findOne({
-        id
+    return Workouts.findAll({
+        where: {
+            owner: id
+        },
+        attributes: {
+            exclude: ['createdAt', 'updatedAt', 'owner']
+        }
     })
     .then(workouts => {
         return workouts
     })
 }
 
-workoutModel.UPDATE_WORKOUT = () => {
+workoutModel.UPDATE_WORKOUT = (id, workoutId, dataToUpdate) => {
+    let updatedWorkout = _.pickBy(dataToUpdate, (item) => {
+        return !_.isUndefined(item)
+    })
 
+    return Workouts.findOne({
+        where: {
+            id: workoutId,
+            owner: id
+        },
+        attributes: {
+            exclude: ['createdAt', 'updatedAt', 'owner']
+        }
+    })
+    .then(workout => {
+        return workout.update(
+            updatedWorkout
+        ).then(status => {
+            return status
+        })
+    })
 }
 
 // Retrieve one workout from the logged in user
-workoutModel.GET_WORKOUT = (id) => {
-    // this needs to be changed to get one workout from the logged in user
+workoutModel.GET_WORKOUT = (id, workoutId) => {
     return Workouts.findOne({
-        id
+        where: {
+            owner: id,
+            id: workoutId
+        },
+        attributes: {
+            exclude: ['createdAt', 'updatedAt', 'owner']
+        }
     })
-    .then(workouts => {
-        return workouts
+    .then(workout => {
+        return workout
     })
 }
 
 // Delete a workout of the logged in user
-workoutModel.DELETE_WORKOUT = () => {
-
+workoutModel.DELETE_WORKOUT = (id, workoutId) => {
+    return Workouts.findOne({
+        where: {
+            owner: id,
+            id: workoutId
+        }
+    })
+    .then(workout => {
+        workout.destroy()
+        return true
+    })
 }
 
 // Retrieve a user's list of workouts
-workoutModel.GET_USER_WORKOUTS = () => {
-    // this needs to be changed to get all workouts for a specific user
+workoutModel.GET_USER_WORKOUTS = (id) => {
+    // TODO: need to verify that user is allowed to have those workouts
     return Workouts.findOne({
-        id
+        where: {
+            id
+        },
+        attributes: {
+            exclude: ['createdAt', 'updatedAt', 'owner']
+        }
     })
     .then(workouts => {
         return workouts
@@ -58,10 +101,16 @@ workoutModel.GET_USER_WORKOUTS = () => {
 }
 
 // Retrieve a workout from a specific user
-workoutModel.GET_USER_WORKOUT = () => {
-    // this needs to be changed to get a specific workout from a specific user
+workoutModel.GET_USER_WORKOUT = (id, workoutId) => {
+    // TODO: need to verify that user is allowed to have this workout
     return Workouts.findOne({
-        id
+        where: {
+            owner: id,
+            id: workoutId
+        },
+        attributes: {
+            exclude: ['createdAt', 'updatedAt', 'owner']
+        }
     })
     .then(workouts => {
         return workouts

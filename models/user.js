@@ -1,6 +1,7 @@
 let userModel = {}
 let User = require('../db').Users
 let authHelpers = require('../helpers/auth')
+let _ = require('lodash')
 
 userModel.SIGN_UP = (email, password, username) => {
     return authHelpers.hashPassword(password)
@@ -16,7 +17,7 @@ userModel.SIGN_UP = (email, password, username) => {
         })
 }
 
-userModel.SIGN_IN = (email, password) => {
+userModel.LOGIN = (email, password) => {
     return User.findOne({
         where: {
             email
@@ -38,6 +39,9 @@ userModel.GET_USER = (id) => {
     return User.findOne({
         where: {
             id
+        },
+        attributes: {
+            exclude: ['createdAt', 'updatedAt', 'password', 'id']
         }
     })
     .then(user => {
@@ -45,7 +49,34 @@ userModel.GET_USER = (id) => {
     })
 }
 
+userModel.GET_USER_PROFILE = (id) => {
+    return User.findOne({
+        where: {
+            id
+        },
+        attributes: ['name', 'role', 'interests'],
+    })
+    .then(user => {
+        return user
+    })
+}
+
+userModel.CHECK_USERNAME_IN_USE = (username) => {
+    return User.findOne({
+        where: {
+            username
+        }
+    })
+    .then(user => {
+        if (user) {
+            return true
+        }
+        return false
+    })
+}
+
 userModel.DELETE_USER = (id) => {
+    // TODO: need to see if destroy was successful
     return User.findOne({
         where: {
             id
@@ -65,15 +96,17 @@ userModel.UPDATE_USER = (id, dataToUpdate) => {
     return User.findOne({
         where: {
             id
+        },
+        attributes: {
+            exclude: ['createdAt', 'updatedAt', 'password']
         }
     })
     .then(user => {
-        user.update(
+        return user.update(
             updatedUser
-        )
-    })
-    .then(user => {
-        return user
+        ).then(status => {
+            return status
+        })
     })
 }
 

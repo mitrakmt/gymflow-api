@@ -7,27 +7,29 @@ module.exports = (db) => {
         },
         email: {
             type: Sequelize.STRING,
-            unique: true
+            unique: true,
+            required: true
         },
         username: {
             type: Sequelize.STRING,
-            unique: true
+            unique: true,
+            required: true
         },
         password: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
+            required: true
         },
         email_verified: {
             type: Sequelize.BOOLEAN,
             defaultValue: false
         },
         role: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
+            defaultValue: 'User'
         },
         interests: {
-            type: Sequelize.JSON
-        },
-        username: {
-            type: Sequelize.STRING
+            type: Sequelize.JSON,
+            defaultValue: []
         }
     }, {
         freezeTableName: true

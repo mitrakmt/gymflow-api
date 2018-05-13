@@ -29,8 +29,10 @@ workoutController.GET_WORKOUTS = (req, res) => {
 // .put(workoutController.UPDATE_WORKOUT)
 workoutController.UPDATE_WORKOUT = (req, res) => {
     let userId = req.user.id
+    let workoutId = req.params.workoutId
+    let dataToUpdate = req.body
 
-    return workoutModel.UPDATE_WORKOUT()
+    return workoutModel.UPDATE_WORKOUT(userId, workoutId, dataToUpdate)
         .then(response => {
             res.status(200).send(response)
         })
@@ -38,11 +40,10 @@ workoutController.UPDATE_WORKOUT = (req, res) => {
 
 // .get(workoutController.GET_WORKOUT)
 workoutController.GET_WORKOUT = (req, res) => {
-    console.log('req.params', req.params)
-    let workoutId = req.params.workoutId
     let userId = req.user.id
+    let workoutId = req.params.workoutId
 
-    return workoutModel.GET_WORKOUT(workoutId)
+    return workoutModel.GET_WORKOUT(userId, workoutId)
         .then(workout => {
             res.status(200).send(workout)
         })
@@ -51,31 +52,33 @@ workoutController.GET_WORKOUT = (req, res) => {
 // .delete(workoutController.DELETE_WORKOUT)
 workoutController.DELETE_WORKOUT = (req, res) => {
     let userId = req.user.id
+    let workoutId = req.params.workoutId
 
-    return workoutModel.DELETE_WORKOUT()
+    return workoutModel.DELETE_WORKOUT(userId, workoutId)
         .then(response => {
             res.status(200).send(response)
         })
 }
 
 
-// ROUTE -- /user
+// ROUTE -- /user/:userId
 // .get(workoutController.GET_USER_WORKOUTS)
 workoutController.GET_USER_WORKOUTS = (req, res) => {
-    let userId = req.user.id
+    let userId = req.params.userId
 
-    return workoutModel.GET_USER_WORKOUTS()
+    return workoutModel.GET_USER_WORKOUTS(userId)
         .then(workouts => {
             res.status(200).send(workouts)
         })
 }
 
-// ROUTE -- /user/:workoutId
+// ROUTE -- /user/:userId/:workoutId
 // .get(workoutController.GET_USER_WORKOUT)
 workoutController.GET_USER_WORKOUT = (req, res) => {
-    let userId = req.user.id
+    let userId = req.params.userId
+    let workoutId = req.params.workoutId
 
-    return workoutModel.GET_USER_WORKOUT()
+    return workoutModel.GET_USER_WORKOUT(userId, workoutId)
         .then(workout => {
             res.status(200).send(workout)
         })

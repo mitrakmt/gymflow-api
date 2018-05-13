@@ -15,14 +15,13 @@ userController.SIGN_UP = (req, res) => {
         })
 }
 
-userController.SIGN_IN = (req, res) => {
+userController.LOGIN = (req, res) => {
     let email = req.body.email
     let password = req.body.password
 
-    return userModel.SIGN_IN(email, password)
+    return userModel.LOGIN(email, password)
         .then(user => {
             if (user) {
-                console.log('user', user)
                 let getTokens = () => {
                     return new Promise((resolve, reject) => {
                         let tokens = authHelpers.generateTokens(user.id)
@@ -41,12 +40,12 @@ userController.SIGN_IN = (req, res) => {
         })
 }
 
-userController.SIGN_OUT = (req, res) => {
+userController.LOGOUT = (req, res) => {
     res.status(200).send('Logged out')
 }
 
 userController.GET_USER = (req, res) => {
-    let userId = req.headers.id
+    let userId = req.user.id
     
     return userModel.GET_USER(userId)
         .then(user => {
@@ -54,9 +53,28 @@ userController.GET_USER = (req, res) => {
         })
 }
 
-userController.DELETE_USER = (req, res) => {
-    let userId = req.headers.id
+// /username/:username
+userController.CHECK_USERNAME_IN_USE = (req, res) => {
+    let username = req.params.username
     
+    return userModel.CHECK_USERNAME_IN_USE(username)
+    .then(inUse => {
+        res.status(200).send(inUse)
+    })
+}
+
+userController.GET_USER_PROFILE = (req, res) => {
+    let userToFind = req.params.userId
+    
+    return userModel.GET_USER_PROFILE(userToFind)
+        .then(user => {
+            res.status(200).send(user)
+        })
+}
+
+userController.DELETE_USER = (req, res) => {
+    let userId = req.user.id
+
     return userModel.DELETE_USER(userId)
         .then(response => {
             res.status(200).send(response)
@@ -64,9 +82,10 @@ userController.DELETE_USER = (req, res) => {
 }
 
 userController.UPDATE_USER = (req, res) => {
-    let userId = req.headers.id
+    let userId = req.user.id
+    let dataToUpdate = req.body
 
-    return userModel.UPDATE_USER()
+    return userModel.UPDATE_USER(userId, dataToUpdate)
         .then(user => {
             res.status(200).send(user)
         })
