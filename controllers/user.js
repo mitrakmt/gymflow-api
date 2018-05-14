@@ -24,6 +24,12 @@ userController.LOGIN = (req, res) => {
     return userModel.LOGIN(email, password)
         .then(user => {
             if (user) {
+                if (!user) {
+                    res.status(400).send({
+                        error: 'UserNotFound'
+                    })
+                    return;
+                }
                 let getTokens = () => {
                     return new Promise((resolve, reject) => {
                         let tokens = authHelpers.generateTokens(user.id)
@@ -39,7 +45,9 @@ userController.LOGIN = (req, res) => {
                     })
                     
             } else {
-                res.status(400).send('Incorrect email or password')
+                res.status(400).send({
+                    error: 'IncorrectCredentials'
+                })
             }
         })
 }

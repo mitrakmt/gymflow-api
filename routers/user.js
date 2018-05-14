@@ -3,7 +3,7 @@ const userController = require('../controllers/user')
 const checkJwt = require('../middleware/auth')
 
 /**
- * /User routes to access user functionality
+ * /User: Routes to access user functionality
 */
 
 userRouter.route('/')
@@ -156,6 +156,14 @@ userRouter.route('/login')
      *     HTTP/1.1 404 Not Found
      *     {
      *       "error": "IncorrectCredentials"
+     *     }
+     * 
+     * @apiError UserNotFound User wasn't found in the database.
+     *
+     * @apiErrorExample Error-Response:
+     *     HTTP/1.1 404 Not Found
+     *     {
+     *       "error": "UseNotFound"
      *     }
      */
     .post(userController.LOGIN)

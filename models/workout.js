@@ -10,14 +10,20 @@ workoutModel.CREATE_WORKOUT = (name, workout, userId) => {
         owner: userId
     })
     .then(workout => {
-        workout.setUsers(userId)
-        return workout
+        workout.setUsers(
+            userId
+        )
+        .then(status => {
+            // TODO: make sure this is a promise and doesn't error, or catch error if it does
+            // console.log('status in create workout', status)
+            return workout
+        })
     })
 }
 
 // Retrieve all workouts for the logged in user
 workoutModel.GET_WORKOUTS = (id) => {
-    // this needs to be changed to get all workouts for the one logged in user
+    // Make sure this returns IDs as well
     return Workouts.findAll({
         where: {
             owner: id
@@ -27,7 +33,9 @@ workoutModel.GET_WORKOUTS = (id) => {
         }
     })
     .then(workouts => {
-        return workouts
+        return {
+            workouts
+        }
     })
 }
 
@@ -49,7 +57,9 @@ workoutModel.UPDATE_WORKOUT = (id, workoutId, dataToUpdate) => {
         return workout.update(
             updatedWorkout
         ).then(status => {
-            return status
+            // TODO: make sure this didn't error out?
+            // console.log('status in update workout', status)
+            return workout
         })
     })
 }
@@ -80,7 +90,12 @@ workoutModel.DELETE_WORKOUT = (id, workoutId) => {
     })
     .then(workout => {
         workout.destroy()
-        return true
+            .then(status => {
+                // TODO: check to see if we can return error here
+                return {
+                    deleted: true
+                }
+            })
     })
 }
 
@@ -96,7 +111,12 @@ workoutModel.GET_USER_WORKOUTS = (id) => {
         }
     })
     .then(workouts => {
-        return workouts
+        if (worouts) {
+            return {
+                workouts
+            }
+        }
+        return []
     })
 }
 
@@ -112,8 +132,8 @@ workoutModel.GET_USER_WORKOUT = (id, workoutId) => {
             exclude: ['createdAt', 'updatedAt', 'owner']
         }
     })
-    .then(workouts => {
-        return workouts
+    .then(workout => {
+        return workout
     })
 }
 
