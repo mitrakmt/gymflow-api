@@ -33,7 +33,8 @@ workoutRouter.route('/')
      * @apiErrorExample Error-Response:
      *     HTTP/1.1 401 Not Found
      *     {
-     *       "error": "Unauthorized"
+     *       "error": "Unauthorized",
+     *       "message": "Error response"
      *     }
      */
     .get(checkJwt, workoutController.GET_WORKOUTS)
@@ -63,7 +64,8 @@ workoutRouter.route('/')
      * @apiErrorExample Error-Response:
      *     HTTP/1.1 401 Not Found
      *     {
-     *       "error": "Unauthorized"
+     *       "error": "Unauthorized",
+     *       "message": "Error response"
      *     }
      */
     .post(checkJwt, workoutController.CREATE_WORKOUT)
@@ -93,7 +95,8 @@ workoutRouter.route('/:workoutId')
      * @apiErrorExample Error-Response:
      *     HTTP/1.1 401 Not Found
      *     {
-     *       "error": "Unauthorized"
+     *       "error": "Unauthorized",
+     *       "message": "Error response"
      *     }
      */
     .get(checkJwt, workoutController.GET_WORKOUT)
@@ -124,7 +127,8 @@ workoutRouter.route('/:workoutId')
      * @apiErrorExample Error-Response:
      *     HTTP/1.1 401 Not Found
      *     {
-     *       "error": "Unauthorized"
+     *       "error": "Unauthorized",
+     *       "message": "Error response"
      *     }
      */
     .put(checkJwt, workoutController.UPDATE_WORKOUT)
@@ -150,7 +154,8 @@ workoutRouter.route('/:workoutId')
      * @apiErrorExample Error-Response:
      *     HTTP/1.1 401 Not Found
      *     {
-     *       "error": "Unauthorized"
+     *       "error": "Unauthorized",
+     *       "message": "Error response"
      *     }
      */
     .delete(checkJwt, workoutController.DELETE_WORKOUT)
@@ -183,7 +188,8 @@ workoutRouter.route('/user/:userId')
      * @apiErrorExample Error-Response:
      *     HTTP/1.1 401 Not Found
      *     {
-     *       "error": "Unauthorized"
+     *       "error": "Unauthorized",
+     *       "message": "Error response"
      *     }
      */
     .get(checkJwt, workoutController.GET_USER_WORKOUTS)
@@ -213,7 +219,8 @@ workoutRouter.route('/user/:userId/:workoutId')
      * @apiErrorExample Error-Response:
      *     HTTP/1.1 401 Not Found
      *     {
-     *       "error": "Unauthorized"
+     *       "error": "Unauthorized",
+     *       "message": "Error response"
      *     }
      */
     .get(checkJwt, workoutController.GET_USER_WORKOUT)

@@ -38,7 +38,8 @@ userRouter.route('/')
      * @apiErrorExample Error-Response:
      *     HTTP/1.1 401 Not Found
      *     {
-     *       "error": "Unauthorized"
+     *       "error": "Unauthorized",
+     *       "message": "Error response"
      *     }
      */
     .get(checkJwt, userController.GET_USER)
@@ -103,7 +104,8 @@ userRouter.route('/')
      * @apiErrorExample Error-Response:
      *     HTTP/1.1 401 Not Found
      *     {
-     *       "error": "Unauthorized"
+     *       "error": "Unauthorized",
+     *       "message": "Error response"
      *     }
      */
     .put(checkJwt, userController.UPDATE_USER)
@@ -128,7 +130,8 @@ userRouter.route('/')
      * @apiErrorExample Error-Response:
      *     HTTP/1.1 401 Not Found
      *     {
-     *       "error": "Unauthorized"
+     *       "error": "Unauthorized",
+     *       "message": "Error response"
      *     }
      */
     .delete(checkJwt, userController.DELETE_USER)
@@ -239,7 +242,8 @@ userRouter.route('/:username')
      * @apiErrorExample Error-Response:
      *     HTTP/1.1 401 Not Found
      *     {
-     *       "error": "Unauthorized"
+     *       "error": "Unauthorized",
+     *       "message": "Error response"
      *     }
      */
     .get(checkJwt, userController.GET_USER_PROFILE)

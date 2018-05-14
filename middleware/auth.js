@@ -8,8 +8,8 @@ let checkJwt = (req, res, next) => {
       if (err) {
         console.log('err', err)
         return res.status(401).send({
-            success: false,
-            message: 'Unauthorized'
+            error: 'Unauthorized',
+            message: 'Invalid token'
         });
       } else {
         // if everything is good, save to request for use in other routes
@@ -21,8 +21,8 @@ let checkJwt = (req, res, next) => {
     // if there is no token
     // return an error
     return res.status(401).send({
-      success: false,
-      message: 'Sign in to continue.'
+      error: 'Unauthorized',
+      message: 'Please sign in to continue'
     });
   }
 }
