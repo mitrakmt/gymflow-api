@@ -38,8 +38,8 @@ emailRouter.route('/signup')
      * @apiGroup Email
      *
      * @apiParam {String} email Email of user.
-     * @apiParam {String} password Password of user.
-     * @apiParam {String} password Password of user.
+     * @apiParam {String} firstName First name of user.
+     * @apiParam {String} lastName Last name of user.
      *
      * @apiSuccess {Bool} subscribed Bool of whether subscribe was successful.
      *
