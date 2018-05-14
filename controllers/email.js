@@ -8,20 +8,24 @@ emailController.CONTACT_US = (req, res) => {
   let topic = req.body.topic
   let email = req.body.email
   let name = req.body.name
-  let company = req.body.company || 'No company provided'
 
   let emailData = {
     from: email,
-    to: 'contact@civilityinternational.org',
+    to: 'contact@gymflow.app',
     subject: "[URGENT] - Topic: " + topic,
-    text: "Name: " + name + ", Company: " + company + ", Topic: " + topic + "\n \n" + message
+    text: "Name: " + name + ", Topic: " + topic + "\n \n" + message
   }
 
-  mailgun.messages().send(emailData, (err, body) => {
+  mailgun.messages().send(emailData, (error, body) => {
     if (err) {
-      res.status(400).send(err)
+      res.status(400).send({
+        sent: false,
+        error
+      })
     } else {
-      res.status(200).send(body)
+      res.status(200).send({
+        sent: true
+      })
     }
   })
 }
@@ -38,7 +42,9 @@ emailController.SIGN_UP = (req, res) => {
     status: 'subscribed'
   })
     .then(results => {
-      res.status(200).send(results)
+      res.status(200).send({
+        subscribed: true
+      })
     })
 }
 
