@@ -7,4 +7,4 @@
 - Run "open docs/index.html"
 
 ### Updating the docs
-- To update the docs based on code changes, please run "apidoc -i routers/ -o docs/
+- To update the docs based on code changes, please run "apidoc -i routers/ -o docs/"

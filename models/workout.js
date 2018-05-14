@@ -57,7 +57,6 @@ workoutModel.UPDATE_WORKOUT = (id, workoutId, dataToUpdate) => {
         return workout.update(
             updatedWorkout
         ).then(status => {
-            console.log('status in update workout', status)
             return workout
         })
     })
