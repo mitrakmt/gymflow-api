@@ -10,7 +10,7 @@ workoutModel.CREATE_WORKOUT = (name, workout, userId) => {
         owner: userId
     })
     .then(workout => {
-        workout.setUsers(
+        return workout.setUsers(
             userId
         )
         .then(status => {
@@ -57,8 +57,7 @@ workoutModel.UPDATE_WORKOUT = (id, workoutId, dataToUpdate) => {
         return workout.update(
             updatedWorkout
         ).then(status => {
-            // TODO: make sure this didn't error out?
-            // console.log('status in update workout', status)
+            console.log('status in update workout', status)
             return workout
         })
     })

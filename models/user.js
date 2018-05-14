@@ -88,9 +88,11 @@ userModel.DELETE_USER = (id) => {
     })
     .then(user => {
         user.destroy()
-        return {
-            deleted: true
-        }
+        .then(status => {
+            return {
+                deleted: true
+            }
+        })
     })
 }
 
