@@ -1,125 +1,100 @@
+let followsModel = {}
 const Follows = require('../db').Follows
 const Users = require('../db').Users
-const followsModel = {}
 
-followsModel.GET_FOLLOWERS = (userId) => {
-  return Follows.findAll({
-    where: {
-      userId: userId
-    }
-  })
-}
-
-followsModel.DELETE_FOLLOWER = (userId, followerId) => {
-  return Follows.findOne({
-    where: {
-      userId: userId,
-      followerId: followerId
-    }
+followsModel.FOLLOW = (followerId, followedId) => {
+  return Follows.create({
+    followedId,
+    followerId
   })
   .then(follow => {
-    if (!follow) {
-      return 'Bad request'
+    return {
+      followed: true
     }
-    follow.destroy()
-    return 'Follower successfully deleted'
   })
 }
 
-followsModel.GET_FOLLOWING = (userId) => {
+followsModel.GET_FOLLOWS = (followerId) => {
   return Follows.findAll({
     where: {
-      followerId: userId
+      followerId
     }
   })
-}
-
-followsModel.GET_FOLLOW_STATUS = (userId, followedUsername) => {
-  return Users.findOne({
-    where: {
-      username: followedUsername
-    }
-  })
-  .then(followed => {
-    if (!followed) {
-      return false
-    }
-    
-    return Follows.findAll({
-      where: {
-        userId: followed.id
-      }
-    })
-    .then(follows => {
-      for (var i = 0; i < follows.length; i++) {
-        if (follows[i].followerId == userId) {
-          return true
-        }
-      }
-
-      return false
-    })
-
-  })
-}
-
-followsModel.POST_FOLLOWING = (followedUsername, followerId) => {
-  return Users.findOne({
-    where: {
-      username: followedUsername
-    }
-  })
-  .then(user => {
-    return Follows.findOne({
-      where: {
-        userId: user.id,
-        followerId: followerId
-      }
-    })
-    .then(follow => {
-      if (follow === null) {
-        return Follows.create({
-          userId: user.id,
-          followerId: followerId
-        })
-        .then(follow => {
-          Users.findOne({
-            where: {
-              id: follow.userId
-            }
-          })
-          .then(user => {
-            user.increment('followerCount')
-          })
-
-          Users.findOne({
-            where: {
-              id: follow.followerId
-            }
-          })
-          .then(user => {
-            user.increment('followingCount')
-          })
-
-          return 'Successfully followed ' + followedUsername
-        })
-      } else {
+  .then(follows => {
+    let promises = follows.map(follow => {
+      return new Promise((resolve, reject) => {
         Users.findOne({
           where: {
-            id: follow.followerId
-          }
+            id: follow.followedId
+          },
+          attributes: ['name','id', 'username']
         })
-        .then(user => {
-          user.decrement('followingCount')
+        .then(users => {
+          resolve(users)
         })
-        follow.destroy()
-        return 'Deleted follow'
-      }
+        .catch(err => {
+          reject(err)
+        })
+      })
     })
-  })
-  .catch(err => {
-    console.log('err in follow/unfollow', err)
+
+    return Promise.all(promises)
+      .then(followedUsers => {
+        followedUsers = [].concat.apply([], followedUsers)
+        return followedUsers
+      })
   })
 }
+
+followsModel.DELETE_FOLLOW = (followedId, followerId) => {
+  return Follows.destroy({
+    where: {
+      followedId,
+      followerId
+    }
+  })
+  .then(response => {
+    return {
+      unfollowed: true
+    }
+  })
+}
+
+// followsModel.GET_FOLLOWING = (userId) => {
+//   return Follows.findAll({
+//     where: {
+//       followerId: userId
+//     }
+//   })
+// }
+
+// followsModel.GET_FOLLOW_STATUS = (userId, followedUsername) => {
+//   return Users.findOne({
+//     where: {
+//       username: followedUsername
+//     }
+//   })
+//   .then(followed => {
+//     if (!followed) {
+//       return false
+//     }
+    
+//     return Follows.findAll({
+//       where: {
+//         userId: followed.id
+//       }
+//     })
+//     .then(follows => {
+//       for (var i = 0; i < follows.length; i++) {
+//         if (follows[i].followerId == userId) {
+//           return true
+//         }
+//       }
+
+//       return false
+//     })
+
+//   })
+// }
 
 module.exports = followsModel

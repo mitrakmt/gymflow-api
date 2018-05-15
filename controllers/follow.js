@@ -1,99 +1,78 @@
-let Follows = require('../models').followsModel
+let Follows = require('../models/follow')
 let Users = require('../db').Users
 let followsController = {}
 
-followsController.GET_FOLLOWERS = (req, res) => {
-  let userId = req.params.userId
+followsController.FOLLOW = (req, res) => {
+  let followerId = req.user.id
+  let followUserId = req.body.followUserId
 
-  Follows.GET_FOLLOWERS(userId)
-  .then(follows => {
-    let promises = follows.map(follow => {
-      return new Promise((resolve, reject) => {
-        Users.findAll({
-          where: {
-            id: follow.followerId
-          }
-        })
-        .then(users => {
-          resolve(users)
-        })
-        .catch(err => {
-          reject(err)
-        })
-      })
-    })
-
-    Promise.all(promises)
-      .then(followedUsers => {
-        followedUsers = [].concat.apply([], followedUsers)
-        res.status(200).send(followedUsers)
-      })
-      .catch(err => {
-        res.status(204).send({err: err})
-      })
-  })
-}
-
-followsController.DELETE_FOLLOWER = (req, res) => {
-  let userId = req.params.userId
-  let followerId = req.body.followerId
-
-  Follows.DELETE_FOLLOWER(userId, followerId)
-    .then(numDeleted => {
-      res.status(200).send('Deleted follower')
-    })
-}
-
-followsController.GET_FOLLOW_STATUS = (req, res) => {
-  let userId = req.params.userId
-  let followedUsername = req.headers['followedusername']
-
-  Follows.GET_FOLLOW_STATUS(userId, followedUsername)
+  Follows.FOLLOW(followerId, followUserId)
     .then(status => {
       res.status(200).send(status)
     })
 }
 
-followsController.GET_FOLLOWING = (req, res) => {
-  let userId = req.params.userId
+followsController.GET_FOLLOWS = (req, res) => {
+  let followerId = req.user.id
 
-  Follows.GET_FOLLOWING(userId)
-    .then(follows => {
-      let promises = follows.map(follow => {
-        return new Promise((resolve, reject) => {
-          Users.findAll({
-            where: {
-              id: follow.userId
-            }
-          })
-          .then(users => {
-            resolve(users)
-          })
-          .catch(err => {
-            reject(err)
-          })
-        })
-      })
+  Follows.GET_FOLLOWS(followerId)
+  .then(follows => {
+    res.status(200).send({
+      follows
+    })
+  })
+}
 
-      Promise.all(promises)
-        .then(followedUsers => {
-          followedUsers = [].concat.apply([], followedUsers)
-          res.status(200).send(followedUsers)
-        })
-        .catch(err => {
-          res.status(204).send({err: err})
-        })
+followsController.DELETE_FOLLOW = (req, res) => {
+  let followerId = req.user.id
+  let followedId = req.body.userToUnfollow
+
+  Follows.DELETE_FOLLOW(followedId, followerId)
+    .then(response => {
+      res.status(200).send(response)
     })
 }
 
-followsController.POST_FOLLOWING = (req, res) => {
-  let followedUsername = req.body.followedUsername
-  let userId = req.params.userId
+// followsController.GET_FOLLOWING = (req, res) => {
+//   let userId = req.params.userId
 
-  Follows.POST_FOLLOWING(followedUsername, userId)
-    .then(followStatus => {
-      res.status(200).send(followStatus)
-    })
-}
+//   Follows.GET_FOLLOWING(userId)
+//     .then(follows => {
+//       let promises = follows.map(follow => {
+//         return new Promise((resolve, reject) => {
+//           Users.findAll({
+//             where: {
+//               id: follow.userId
+//             }
+//           })
+//           .then(users => {
+//             resolve(users)
+//           })
+//           .catch(err => {
+//             reject(err)
+//           })
+//         })
+//       })
+
+//       Promise.all(promises)
+//         .then(followedUsers => {
+//           followedUsers = [].concat.apply([], followedUsers)
+//           res.status(200).send(followedUsers)
+//         })
+//         .catch(err => {
+//           res.status(204).send({err: err})
+//         })
+//     })
+// }
+
+// followsController.GET_FOLLOW_STATUS = (req, res) => {
+//   let userId = req.params.userId
+//   let followedUsername = req.headers['followedusername']
+
+//   Follows.GET_FOLLOW_STATUS(userId, followedUsername)
+//     .then(status => {
+//       res.status(200).send(status)
+//     })
+// }
 
 module.exports = followsController

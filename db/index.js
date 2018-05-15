@@ -20,8 +20,8 @@ const UsersWorkouts = db.define('UsersWorkouts', {})
 
 // option { onDelete: 'cascade' } leaves no orphans http://dba.stackexchange.com/questions/44956/good-explanation-of-cascade-on-delete-update-behavior
 // option { hooks: true } destroys each instance one by one to safely delete http://docs.sequelizejs.com/en/latest/docs/hooks/
-Users.belongsToMany(Users, { as: 'followedUsers', through: Follows, foreignKey: 'followerId', onDelete: 'cascade', hooks: true })
-Users.belongsToMany(Users, { as: 'followers', through: Follows, foreignKey: 'userId', onDelete: 'cascade', hooks: true })
+Users.belongsToMany(Users, { as: 'followers', through: Follows, foreignKey: 'followerId', onDelete: 'cascade', hooks: true })
+Users.belongsToMany(Users, { as: 'followedUsers', through: Follows, foreignKey: 'followedId', onDelete: 'cascade', hooks: true })
 
 /* *
 * Workouts:Users

@@ -81,18 +81,15 @@ userModel.CHECK_USERNAME_IN_USE = (username) => {
 
 userModel.DELETE_USER = (id) => {
     // TODO: need to see if destroy was successful
-    return User.findOne({
+    return User.destroy({
         where: {
             id
         }
     })
     .then(user => {
-        user.destroy()
-        .then(status => {
-            return {
-                deleted: true
-            }
-        })
+        return {
+            deleted: true
+        }
     })
 }
 

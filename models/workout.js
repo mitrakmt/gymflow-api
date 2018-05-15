@@ -80,20 +80,16 @@ workoutModel.GET_WORKOUT = (id, workoutId) => {
 
 // Delete a workout of the logged in user
 workoutModel.DELETE_WORKOUT = (id, workoutId) => {
-    return Workouts.findOne({
+    return Workouts.destroy({
         where: {
             owner: id,
             id: workoutId
         }
     })
     .then(workout => {
-        workout.destroy()
-            .then(status => {
-                // TODO: check to see if we can return error here
-                return {
-                    deleted: true
-                }
-            })
+        return {
+            deleted: true
+        }
     })
 }
 
