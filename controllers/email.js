@@ -15,9 +15,10 @@ emailController.CONTACT_US = (req, res) => {
     subject: "[URGENT] - Topic: " + topic,
     text: "Name: " + name + ", Topic: " + topic + "\n \n" + message
   }
+  console.log('emial', emailData)
 
   mailgun.messages().send(emailData, (error, body) => {
-    if (err) {
+    if (error) {
       res.status(400).send({
         sent: false,
         error

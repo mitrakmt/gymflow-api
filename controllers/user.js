@@ -20,11 +20,12 @@ userController.SIGN_UP = (req, res) => {
                 res.status(400).send({
                     error: response.error
                 })
+            } else {
+                let Authorization = authHelpers.generateTokens(response.user.id)
+                res.status(200).send({
+                    Authorization
+                })
             }
-            let Authorization = authHelpers.generateTokens(response.user.id)
-            res.status(200).send({
-                Authorization
-            })
         })
 }
 
