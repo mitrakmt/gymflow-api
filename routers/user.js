@@ -68,6 +68,23 @@ userRouter.route('/')
      *       "error": "PasswordTooShort"
      *     }
      * 
+     * @apiError emailTaken The email provided is already in use
+     *
+     * @apiErrorExample Error-Response:
+     *     HTTP/1.1 400 Invalid request
+     *     {
+     *       "error": "EmailTaken"
+     *     }
+     * 
+     * @apiError UsernameTaken The username provided is already taken
+     *
+     * @apiErrorExample Error-Response:
+     *     HTTP/1.1 400 Invalid request
+     *     {
+     *       "error": "UsernameTaken"
+     *     }
+     * 
+     * 
      * @apiError EmailTaken That email is already in use.
      *
      * @apiErrorExample Error-Response:

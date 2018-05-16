@@ -4,17 +4,44 @@ let authHelpers = require('../helpers/auth')
 let _ = require('lodash')
 
 userModel.SIGN_UP = (email, password, username) => {
-    return authHelpers.hashPassword(password)
-        .then(hash => {
-            return User.create({
-                username,
-                email,
-                password: hash
-            })
-            .then(user => {
-                return user
-            })
+    return User.findOne({
+        where: {
+            username
+        }
+    })
+    .then(userFound => {
+        if (userFound) {
+            return {
+                error: 'UsernameTaken'
+            }
+        }
+        return User.findOne({
+            where: {
+                email
+            }
         })
+        .then(userFound => {
+            if (userFound) {
+                return {
+                    error: 'EmailTaken'
+                }
+            }
+            return authHelpers.hashPassword(password)
+                .then(hash => {
+                    return User.create({
+                        username,
+                        email,
+                        password: hash
+                    })
+                    .then(user => {
+                        return {
+                            user,
+                            error: false
+                        }
+                    })
+                })
+        })
+    })
 }
 
 userModel.LOGIN = (email, password) => {

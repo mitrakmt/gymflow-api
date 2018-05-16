@@ -7,10 +7,21 @@ userController.SIGN_UP = (req, res) => {
     let email = req.body.email
     let password = req.body.password
     let username = req.body.username
+    
+    if (password.length < 7) {
+        res.status(400).send({
+            error: 'PasswordTooShort'
+        })
+    }
 
     return userModel.SIGN_UP(email, password, username)
-        .then(user => {
-            let Authorization = authHelpers.generateTokens(user.id)
+        .then(response => {
+            if (response.error) {
+                res.status(400).send({
+                    error: response.error
+                })
+            }
+            let Authorization = authHelpers.generateTokens(response.user.id)
             res.status(200).send({
                 Authorization
             })
@@ -67,7 +78,6 @@ userController.GET_USER = (req, res) => {
         })
 }
 
-// /username/:username
 userController.CHECK_USERNAME_IN_USE = (req, res) => {
     let username = req.params.username
 
