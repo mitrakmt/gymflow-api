@@ -952,10 +952,6 @@ lodash.set@^4.0.0:
   version "4.3.2"
   resolved "https://registry.yarnpkg.com/lodash.set/-/lodash.set-4.3.2.tgz#d8757b1da807dde24816b0d6a84bea1a76230b23"
 
-lodash@^3.10.1:
-  version "3.10.1"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-3.10.1.tgz#5bf45e8e49ba4189e17d482789dfd15bd140b7b6"
-
 lodash@^4.14.0, lodash@^4.17.1, lodash@^4.17.10, lodash@^4.17.4, lodash@~4.17.4:
   version "4.17.10"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.10.tgz#1b7793cf7259ea38fb3661d4d38b3260af8ae4e7"
@@ -983,12 +979,12 @@ lru-memoizer@^1.6.0:
     lru-cache "~4.0.0"
     very-fast-args "^1.1.0"
 
-mailchimp-api-v3@^1.8.0:
-  version "1.8.0"
-  resolved "https://registry.yarnpkg.com/mailchimp-api-v3/-/mailchimp-api-v3-1.8.0.tgz#c7d2cbb81d3420b3dde52b98b761bca9dadf778e"
+mailchimp-api-v3@^1.9.0:
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/mailchimp-api-v3/-/mailchimp-api-v3-1.9.0.tgz#f60f46f16acd14e7460b20409e7f8f39d60f2456"
   dependencies:
     bluebird "^3.4.0"
-    lodash "^3.10.1"
+    lodash "^4.17.10"
     request "^2.67.0"
     tar "^4.0.2"
 
