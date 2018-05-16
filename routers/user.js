@@ -60,6 +60,14 @@ userRouter.route('/')
      *       "Authorization": "someCrazyLongAuthorizationToken"
      *     }
      * 
+     * @apiError PasswordTooShort The password provided does not meet length requirements of > 6 characters
+     *
+     * @apiErrorExample Error-Response:
+     *     HTTP/1.1 400 Invalid request
+     *     {
+     *       "error": "PasswordTooShort"
+     *     }
+     * 
      * @apiError EmailTaken That email is already in use.
      *
      * @apiErrorExample Error-Response:
