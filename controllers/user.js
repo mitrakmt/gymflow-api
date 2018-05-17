@@ -35,7 +35,6 @@ userController.SIGN_UP = (req, res) => {
                     if (err) {
                         console.log('Error in sending verification email to user ' + email)
                     }
-                    console.log('body', body)
                 });
 
                 res.status(200).send({
