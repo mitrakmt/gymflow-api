@@ -196,6 +196,25 @@ userRouter.route('/login')
      */
     .post(userController.LOGIN)
 
+userRouter.route('/passwordreset')
+    /**
+     * @api {post} /user/passwordreset Reset password for user
+     * @apiName ResetPasswordFinal
+     * @apiGroup User
+     * 
+     * @apiParam {String} token Token pulled from URL
+     * @apiParam {String} password Password to use
+     *
+     * @apiSuccess {Bool} passwordUpdated Boolean if password updated successfully.
+     *
+     * @apiSuccessExample Success-Response:
+     *     HTTP/1.1 200 OK
+     *     {
+     *       "passwordUpdated": true
+     *     }
+     */
+    .post(userController.PASSWORD_RESET)
+
 userRouter.route('/logout')
     /**
      * @api {delete} /user/logout Logout user

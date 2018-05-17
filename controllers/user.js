@@ -2,6 +2,7 @@ let userController = {}
 let userModel = require('../models/user')
 let authHelpers = require('../helpers/auth')
 let Promise = require("bluebird")
+let verifyToken = require('../helpers/auth').verifyToken
 
 userController.SIGN_UP = (req, res) => {
     let email = req.body.email
@@ -24,6 +25,38 @@ userController.SIGN_UP = (req, res) => {
                 let Authorization = authHelpers.generateTokens(response.user.id)
                 res.status(200).send({
                     Authorization
+                })
+            }
+        })
+}
+
+userController.PASSWORD_RESET = (req, res) => {
+    let password = req.body.password
+    let token = req.body.token
+
+    if (password.length < 7) {
+        res.status(400).send({
+            error: 'PasswordTooShort'
+        })
+    }
+
+    let verifiedToken = verifyToken(token)
+    if (verifiedToken.error) {
+        res.status(400).send({
+            error: 'InvalidToken'
+        })
+        return;
+    }
+
+    return userModel.PASSWORD_RESET(password, verifiedToken.decoded.data)
+        .then(response => {
+            if (response.error) {
+                res.status(400).send({
+                    error: response.error
+                })
+            } else {
+                res.status(200).send({
+                    passwordUpdated: true
                 })
             }
         })

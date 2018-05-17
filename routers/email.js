@@ -51,4 +51,22 @@ emailRouter.route('/signup')
      */
     .post(emailController.SIGN_UP)
 
+    emailRouter.route('/passwordreset')
+    /**
+     * @api {post} /email/passwordreset Reset password
+     * @apiName PasswordReset
+     * @apiGroup Email
+     *
+     * @apiParam {String} email Email of account to reset password of.
+     *
+     * @apiSuccess {Bool} subscribed Bool of whether email send was successful.
+     *
+     * @apiSuccessExample Success-Response:
+     *     HTTP/1.1 200 OK
+     *     {
+     *       "sent": true
+     *     }
+     */
+    .post(emailController.PASSWORD_RESET)
+
 module.exports = emailRouter

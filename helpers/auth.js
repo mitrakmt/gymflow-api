@@ -10,12 +10,21 @@ authHelpers.generateTokens = (id) => {
   return token
 }
 
+authHelpers.generatePasswordResetToken = (email) => {
+  let token = jwt.sign({
+    exp: Math.floor(Date.now() / 1000) + (60 * 60),
+    data: email
+  }, process.env.JWT_SECRET);
+
+  return token
+}
+
 authHelpers.verifyToken = (token) => {
   return jwt.verify(token, process.env.JWT_SECRET, (error, decoded) => {
-    if (err) {
+    if (error) {
       return {
         succeeded: false,
-        error: error
+        error
       }
     } else {
       return {

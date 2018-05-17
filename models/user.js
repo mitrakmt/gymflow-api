@@ -142,4 +142,20 @@ userModel.UPDATE_USER = (id, dataToUpdate) => {
     })
 }
 
+userModel.PASSWORD_RESET = (password, email) => {
+    return authHelpers.hashPassword(password)
+        .then(hash => {
+            return User.update({
+                password: hash
+              }, {
+                where: { 
+                    email
+                }
+            })
+            .then(user => {
+                return true
+            })
+        })
+}
+
 module.exports = userModel
