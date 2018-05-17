@@ -158,4 +158,17 @@ userModel.PASSWORD_RESET = (password, email) => {
         })
 }
 
+userModel.VERIFY_EMAIL = (id) => {
+    return User.update({
+        email_verified: true
+        }, {
+        where: { 
+            id
+        }
+    })
+    .then(user => {
+        return true
+    })
+}
+
 module.exports = userModel

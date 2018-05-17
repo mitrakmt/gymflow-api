@@ -252,6 +252,24 @@ userRouter.route('/username/:username')
      */
     .get(userController.CHECK_USERNAME_IN_USE)
 
+userRouter.route('/verifyemail')
+    /**
+     * @api {post} /user/verifyemail Verify email address
+     * @apiName VerifyEmail
+     * @apiGroup User
+     * 
+     * @apiParam {String} token Token pulled from URL
+     *
+     * @apiSuccess {Bool} emailVerified Boolean if verified successfully.
+     *
+     * @apiSuccessExample Success-Response:
+     *     HTTP/1.1 200 OK
+     *     {
+     *       "emailVerified": true
+     *     }
+     */
+    .post(userController.VERIFY_EMAIL)
+
 userRouter.route('/:username')
     /**
      * @api {get} /user Get user profile

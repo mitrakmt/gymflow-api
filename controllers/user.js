@@ -2,6 +2,7 @@ let userController = {}
 let userModel = require('../models/user')
 let authHelpers = require('../helpers/auth')
 let Promise = require("bluebird")
+let mailgun = require('mailgun-js')({ apiKey: process.env.MAILGUN_API, domain: process.env.MAILGUN_DOMAIN });
 let verifyToken = require('../helpers/auth').verifyToken
 
 userController.SIGN_UP = (req, res) => {
@@ -23,6 +24,20 @@ userController.SIGN_UP = (req, res) => {
                 })
             } else {
                 let Authorization = authHelpers.generateTokens(response.user.id)
+                let emailData = {
+                    from: 'contact@gymflow.app',
+                    to: email,
+                    subject: 'GymFlow - Email Verification',
+                    text: `Please use the following link to verify your email: https://www.gymflow.app/emailverification/${Authorization}`
+                }
+                
+                mailgun.messages().send(emailData, (err, body) => {
+                    if (err) {
+                        console.log('Error in sending verification email to user ' + email)
+                    }
+                    console.log('body', body)
+                });
+
                 res.status(200).send({
                     Authorization
                 })
@@ -57,6 +72,31 @@ userController.PASSWORD_RESET = (req, res) => {
             } else {
                 res.status(200).send({
                     passwordUpdated: true
+                })
+            }
+        })
+}
+
+userController.VERIFY_EMAIL = (req, res) => {
+    let token = req.body.token
+    let verifiedToken = verifyToken(token)
+
+    if (verifiedToken.error) {
+        res.status(400).send({
+            error: 'InvalidToken'
+        })
+        return;
+    }
+
+    return userModel.VERIFY_EMAIL(verifiedToken.decoded.id)
+        .then(response => {
+            if (response.error) {
+                res.status(400).send({
+                    error: response.error
+                })
+            } else {
+                res.status(200).send({
+                    emailVerified: true
                 })
             }
         })

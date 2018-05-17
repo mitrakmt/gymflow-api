@@ -79,4 +79,29 @@ emailController.PASSWORD_RESET = (req, res) => {
   });
 }
 
+emailController.VERIFY_EMAIL = (email, token) => {
+  let emailData = {
+    from: 'passwordreset@gymflow.app',
+    to: email,
+    subject: 'GymFlow - Password Reset',
+    text: `Please use the following link to verify your email: https://www.gymflow.app/emailverification/${token}
+    
+    This link will expire in 60 minutes.`
+  }
+
+  mailgun.messages().send(emailData, (err, body) => {
+    if (err) {
+      res.status(400).send({
+        sent: false,
+        error: err
+      })
+    }
+    else {
+      res.status(200).send({
+        sent: true
+      })
+    }
+  });
+}
+
 module.exports = emailController
