@@ -5,37 +5,32 @@ subscriptionController.SUBSCRIBE = (req, res) => {
     let subscribeToId = req.body.subscribeToId
     let userId = req.user.id
 
-    // TODO
-    res.status(200).send({
-        subscribed: true
-    })
+    subscriptionModel.SUBSCRIBE(userId, subscribeToId)
+        .then(response => {
+            res.status(200).send(response)
+        })
 }
 
 subscriptionController.GET_SUBSCRIPTIONS = (req, res) => {
-    let subscribeToId = req.body.subscribeToId
     let userId = req.user.id
 
-    // TODO
-    res.status(200).send({
-        subscriptions: [
-            {
-                name: "Marc Fitt",
-                username: "marcfitt",
-                id: 1,
-                pricePerMonth: 45
-            }
-        ]
-    })
+    subscriptionModel.GET_SUBSCRIPTIONS(userId)
+        .then(subscriptions => {
+            // TODO: Replace with real response
+            res.status(200).send({
+                subscriptions
+            })
+        })
 }
 
 subscriptionController.DELETE_SUBSCRIPTION = (req, res) => {
     let unsubscribeFromId = req.body.unsubscribeFromId
     let userId = req.user.id
 
-    // TODO
-    res.status(200).send({
-        unsubscribed: true
-    })
+    subscriptionModel.SUBSCRIBE(userId, unsubscribeFromId)
+        .then(response => {
+            res.status(200).send(response)
+        })
 }
 
 module.exports = subscriptionController
