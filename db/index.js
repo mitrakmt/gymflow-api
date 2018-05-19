@@ -61,5 +61,6 @@ module.exports = {
   Users,
   Workouts,
   Follows,
-  UsersWorkouts
+  UsersWorkouts,
+  Subscriptions
 }

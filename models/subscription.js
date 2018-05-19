@@ -24,7 +24,28 @@ subscriptionsModel.GET_SUBSCRIPTIONS = (userId) => {
         }
       })
       .then(subscriptions => {
-        return subscriptions
+        let promises = subscriptions.map(subscription => {
+          return new Promise((resolve, reject) => {
+            Users.findOne({
+              where: {
+                id: subscription.subscribedToId
+              },
+              attributes: ['name','id', 'username']
+            })
+            .then(users => {
+              resolve(users)
+            })
+            .catch(err => {
+              reject(err)
+            })
+          })
+        })
+    
+        return Promise.all(promises)
+          .then(subscribedToUsers => {
+            subscribedToUsers = [].concat.apply([], subscribedToUsers)
+            return subscribedToUsers
+          })
       })
 }
 
@@ -40,7 +61,7 @@ subscriptionsModel.DELETE_SUBSCRIPTION = (userId, unsubscribeFromId) => {
     .then(response => {
         return {
             unsubscribed: true
-          }
+        }
     })
 }
 

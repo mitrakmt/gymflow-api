@@ -27,7 +27,7 @@ subscriptionController.DELETE_SUBSCRIPTION = (req, res) => {
     let unsubscribeFromId = req.body.unsubscribeFromId
     let userId = req.user.id
 
-    subscriptionModel.SUBSCRIBE(userId, unsubscribeFromId)
+    subscriptionModel.DELETE_SUBSCRIPTION(userId, unsubscribeFromId)
         .then(response => {
             res.status(200).send(response)
         })
