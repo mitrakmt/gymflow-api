@@ -6,6 +6,7 @@ const Users = require('./users')(db)
 const Workouts = require('./workouts')(db)
 const Follows = require('./follows')(db)
 const Subscriptions = require('./subscriptions')(db)
+const LoggedWorkouts = require('./loggedWorkouts')(db)
 
 // CREATE JOIN TABLES
 const UsersWorkouts = db.define('UsersWorkouts', {})
@@ -62,5 +63,6 @@ module.exports = {
   Workouts,
   Follows,
   UsersWorkouts,
-  Subscriptions
+  Subscriptions,
+  LoggedWorkouts
 }

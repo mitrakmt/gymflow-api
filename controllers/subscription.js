@@ -16,7 +16,6 @@ subscriptionController.GET_SUBSCRIPTIONS = (req, res) => {
 
     subscriptionModel.GET_SUBSCRIPTIONS(userId)
         .then(subscriptions => {
-            // TODO: Replace with real response
             res.status(200).send({
                 subscriptions
             })
