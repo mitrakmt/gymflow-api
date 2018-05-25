@@ -1,6 +1,7 @@
 const workoutRouter = require('express').Router()
 const workoutController = require('../controllers/workout')
 const checkJwt = require('../middleware/auth')
+const validateWorkoutSchema = require('middleware/validateWorkoutSchema')
 
 /**
  * /Workout: Routes to access workout functionality
@@ -68,7 +69,7 @@ workoutRouter.route('/')
      *       "message": "Error response"
      *     }
      */
-    .post(checkJwt, workoutController.CREATE_WORKOUT)
+    .post(checkJwt, validateWorkoutSchema, workoutController.CREATE_WORKOUT)
 
 workoutRouter.route('/:workoutId')
     /**
@@ -131,7 +132,7 @@ workoutRouter.route('/:workoutId')
      *       "message": "Error response"
      *     }
      */
-    .put(checkJwt, workoutController.UPDATE_WORKOUT)
+    .put(checkJwt, validateWorkoutSchema, workoutController.UPDATE_WORKOUT)
      /**
      * @api {delete} /workout/:workoutId Delete a workout
      * @apiName DeleteWorkout

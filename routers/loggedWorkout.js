@@ -1,6 +1,7 @@
 let loggedWorkoutRouter = require('express').Router()
 const loggedWorkoutController = require('../controllers/loggedWorkout')
-const checkJwt = require('../middleware/auth')
+const checkJwt = require('middleware/auth')
+const validateWorkoutSchema = require('middleware/validateWorkoutSchema')
 
 loggedWorkoutRouter.route('/')
     /**
@@ -12,7 +13,7 @@ loggedWorkoutRouter.route('/')
      * @apiHeader (Authorization) {String} authorization Authorization token (normally a JWT included "Bearer" at the beginning, but please exclude that text before the token).
      * 
      * @apiParam {String} name Name of the workout to log
-     * @apiParam {Object} workout Workout to log
+     * @apiParam {Array} workout Workout to log
      * @apiParam {Integer} parentWorkoutId ID of the workout template used
      *
      * @apiSuccess {Bool} workoutLogged Boolean if logged workout created successfully.
@@ -32,7 +33,7 @@ loggedWorkoutRouter.route('/')
      *       "message": "Error response"
      *     }
      */
-    .post(checkJwt, loggedWorkoutController.LOG_WORKOUT)
+    .post(checkJwt, validateWorkoutSchema, loggedWorkoutController.LOG_WORKOUT)
     /**
      * @api {get} /loggedWorkout Get all logged workouts
      * @apiName GetLoggedWorkouts
@@ -98,6 +99,8 @@ loggedWorkoutRouter.route('/:workoutId')
      * @apiHeader (Authorization) {String} authorization Authorization token (normally a JWT included "Bearer" at the beginning, but please exclude that text before the token).
      * 
      * @apiParam {Integer} workoutId ID of the logged workout to update
+     * @apiParam {String} name Name of the workout to update to
+     * @apiParam {Array} workout Updated workout object
      *
      * @apiSuccess {Bool} workoutUpdated Boolean if workout was updated successfully.
      *
@@ -116,7 +119,7 @@ loggedWorkoutRouter.route('/:workoutId')
      *       "message": "Error response"
      *     }
      */
-    .put(checkJwt, loggedWorkoutController.UPDATE_LOGGED_WORKOUT)
+    .put(checkJwt, validateWorkoutSchema, loggedWorkoutController.UPDATE_LOGGED_WORKOUT)
     /**
      * @api {get} /loggedWorkout/:workoutId Get a logged workout
      * @apiName GetLoggedWorkout
@@ -132,7 +135,10 @@ loggedWorkoutRouter.route('/:workoutId')
      * @apiSuccessExample Success-Response:
      *     HTTP/1.1 200 OK
      *     {
-     *       "workout": {}
+     *       "workout": {
+     *          "name": "someName",
+     *          "workout": []
+     *       }
      *     }
      * 
      * @apiError Unauthorized Not an authorized or authenticated user.
