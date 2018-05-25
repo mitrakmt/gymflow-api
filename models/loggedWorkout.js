@@ -10,9 +10,7 @@ loggedWorkoutModel.LOG_WORKOUT = (userId, name, workout, parentWorkoutId) => {
         parentWorkoutId
     })
     .then(workout => {
-        return {
-            loggedWorkout: true
-        }
+        return workout
     })
 }
 

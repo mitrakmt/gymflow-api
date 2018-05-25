@@ -16,12 +16,20 @@ loggedWorkoutRouter.route('/')
      * @apiParam {Array} workout Workout to log
      * @apiParam {Integer} parentWorkoutId ID of the workout template used
      *
-     * @apiSuccess {Bool} workoutLogged Boolean if logged workout created successfully.
+     * @apiSuccess {Array} workout The workout array.
+     * @apiSuccess {String} name Name of the workout.
+     * @apiSuccess {Integer} id Id of the logged workout.
+     * @apiSuccess {Integer} parentWorkoutId Id of the parent workout template.
+     * @apiSuccess {Bool} completed Bool if completed.
      *
      * @apiSuccessExample Success-Response:
      *     HTTP/1.1 200 OK
      *     {
-     *       "workoutLogged": true
+     *       "workout": [],
+     *       "name": "somename",
+     *       "id": 0,
+     *       "parentWorkoutId": 0,
+     *       "completed": false
      *     }
      * 
      * @apiError Unauthorized Not an authorized or authenticated user.
