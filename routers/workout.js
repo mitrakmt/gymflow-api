@@ -1,7 +1,7 @@
 const workoutRouter = require('express').Router()
 const workoutController = require('../controllers/workout')
 const checkJwt = require('../middleware/auth')
-const validateWorkoutSchema = require('middleware/validateWorkoutSchema')
+const validateWorkoutSchema = require('../middleware/validateWorkoutSchema')
 
 /**
  * /Workout: Routes to access workout functionality

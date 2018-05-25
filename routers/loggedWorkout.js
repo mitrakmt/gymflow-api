@@ -1,7 +1,7 @@
 let loggedWorkoutRouter = require('express').Router()
 const loggedWorkoutController = require('../controllers/loggedWorkout')
-const checkJwt = require('middleware/auth')
-const validateWorkoutSchema = require('middleware/validateWorkoutSchema')
+const checkJwt = require('../middleware/auth')
+const validateWorkoutSchema = require('../middleware/validateWorkoutSchema')
 
 loggedWorkoutRouter.route('/')
     /**
