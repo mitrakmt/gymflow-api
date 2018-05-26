@@ -13,9 +13,9 @@ interestController.GET_INTERESTS = (req, res) => {
 
 interestController.ADD_INTEREST = (req, res) => {
     let userId = req.user.id
-    let interest = req.body.interest
+    let interestId = req.body.interestId
 
-    interestModel.ADD_INTEREST(userId, interest)
+    interestModel.ADD_INTEREST(userId, interestId)
         .then(response => {
             res.status(200).send(response)
         })
@@ -23,11 +23,14 @@ interestController.ADD_INTEREST = (req, res) => {
 
 interestController.DELETE_INTEREST = (req, res) => {
     let userId = req.user.id
-    let interest = req.body.interest
+    let interestId = req.body.interestId
 
-    interestModel.DELETE_INTEREST(userId, interest)
+    interestModel.DELETE_INTEREST(userId, interestId)
         .then(response => {
-            res.status(200).send(response)
+            res.send({
+                status: 200,
+                response
+            })
         })
 }
 
@@ -39,7 +42,18 @@ interestController.GET_AVAILABLE_INTERESTS = (req, res) => {
 }
 
 interestController.ADD_MASTER_INTEREST = (req, res) => {
-    interestModel.ADD_MASTER_INTEREST()
+    let interest = req.body.interest
+
+    interestModel.ADD_MASTER_INTEREST(interest)
+        .then(response => {
+            res.status(200).send(response)
+        })
+}
+
+interestController.DELETE_MASTER_INTEREST = (req, res) => {
+    let interest = req.body.interest
+
+    interestModel.DELETE_MASTER_INTEREST(interest)
         .then(response => {
             res.status(200).send(response)
         })

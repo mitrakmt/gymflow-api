@@ -44,7 +44,7 @@ interestRouter.route('/')
    * @apiSuccessExample Success-Response:
    *     HTTP/1.1 200 OK
    *     {
-   *       "subscribed": true
+   *       "success": true
    *     }
    *
    * 
@@ -110,5 +110,6 @@ interestRouter.route('/')
      */
     .get(interestController.GET_AVAILABLE_INTERESTS)
     .post(interestController.ADD_MASTER_INTEREST)
+    .delete(interestController.DELETE_MASTER_INTEREST)
 
 module.exports = interestRouter
