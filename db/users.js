@@ -26,10 +26,6 @@ module.exports = (db) => {
         role: {
             type: Sequelize.STRING,
             defaultValue: 'User'
-        },
-        interests: {
-            type: Sequelize.JSON,
-            defaultValue: []
         }
     }, {
         freezeTableName: true

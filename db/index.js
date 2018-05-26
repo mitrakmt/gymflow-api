@@ -7,9 +7,11 @@ const Workouts = require('./workouts')(db)
 const Follows = require('./follows')(db)
 const Subscriptions = require('./subscriptions')(db)
 const LoggedWorkouts = require('./loggedWorkouts')(db)
+const Interests = require('./interests')(db)
 
 // CREATE JOIN TABLES
 const UsersWorkouts = db.define('UsersWorkouts', {})
+const UsersInterests = db.define('UsersInterests', {})
 
 // ASSIGN RELATIONSHIPS
 /* *
@@ -48,6 +50,14 @@ Users.belongsToMany(Users, { as: 'subscribedTo', through: Subscriptions, foreign
 Workouts.belongsToMany(Users, {through: UsersWorkouts, foreignKey: 'workoutId'})
 Users.belongsToMany(Workouts, {through: UsersWorkouts, foreignKey: 'userId'})
 
+/* *
+* Interests:Users
+* */
+
+// Interests:Users (n:m)
+Interests.belongsToMany(Users, {through: UsersInterests, foreignKey: 'interestId'})
+Users.belongsToMany(Interests, {through: UsersInterests, foreignKey: 'userId'})
+
 // // HELPER TO DROP ALL TABLES
 // db.sync({force: true}).then(() => {
 //   console.log('Tables have been dropped')
@@ -64,5 +74,7 @@ module.exports = {
   Follows,
   UsersWorkouts,
   Subscriptions,
-  LoggedWorkouts
+  LoggedWorkouts,
+  Interests,
+  UsersInterests
 }

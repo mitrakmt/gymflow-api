@@ -5,6 +5,7 @@ const workout = require('./workout')
 const follow = require('./follow')
 const subscription = require('./subscription')
 const loggedWorkout = require('./loggedWorkout')
+const interest = require('./interest')
 
 Router.use('/user', user)
 Router.use('/email', email)
@@ -12,5 +13,6 @@ Router.use('/workout', workout)
 Router.use('/follow', follow)
 Router.use('/subscription', subscription)
 Router.use('/loggedWorkout', loggedWorkout)
+Router.use('/interest', interest)
 
 module.exports = Router
