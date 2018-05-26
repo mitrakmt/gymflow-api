@@ -7,6 +7,12 @@ loggedWorkoutController.LOG_WORKOUT = (req, res) => {
     let workout = req.body.workout
     let parentWorkoutId = req.body.parentWorkoutId
 
+    // Loop through sets to add completed boolean
+    for (let setIndex = 0; setIndex < workout.length; setIndex++) {
+        workout[setIndex].completed = false
+        workout[setIndex].timeCompleted = null
+    }
+
     return loggedWorkoutModel.LOG_WORKOUT(userId, name, workout, parentWorkoutId)
         .then(response => {
             res.status(200).send(response)
