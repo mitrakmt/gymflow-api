@@ -51,6 +51,9 @@ userModel.LOGIN = (email, password) => {
         }
     })
     .then(user => {
+        if (!user) {
+            return null
+        }
         return authHelpers.comparePasswords(password, user.password)
             .then(result => {
                 if (result) {
